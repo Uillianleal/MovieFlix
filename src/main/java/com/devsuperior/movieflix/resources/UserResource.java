@@ -18,11 +18,11 @@ public class UserResource {
 	private UserService service;
 	
 	
-	/*@GetMapping(value = "/{id}")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<UserDTO> findById(@PathVariable Long id){
 		UserDTO dto = service.finById(id);
 		return ResponseEntity.ok().body(dto);
-	}*/
+	}
 	
 	@GetMapping(value = "/profile")
 	public ResponseEntity<UserDTO> findUserProfile() {
