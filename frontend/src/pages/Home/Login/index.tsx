@@ -1,4 +1,5 @@
-
+import { Link } from 'react-router-dom';
+import ButtonIcon from '../../../components/ButtonIcon';
 import './styles.css';
 
 const Login = () => {
@@ -22,9 +23,11 @@ const Login = () => {
             name="password"
           />
         </div>
-        <div className="login-submit">
-          <button className="btn btn-warning btn-login">Fazer Login</button>
-        </div>
+        <Link to="/movies">
+          <div className="btn-login">
+            <ButtonIcon text="FAZER LOGIN" />
+          </div>
+        </Link>
       </form>
     </div>
   );

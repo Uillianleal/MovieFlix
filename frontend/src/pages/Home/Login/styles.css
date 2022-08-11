@@ -20,8 +20,8 @@
 
 .base-input::placeholder {
   font-size: 16px;
-  Letter-spacing: -1.5%;
-  color: #9E9E9E;
+  letter-spacing: -1.5%;
+  color: #9e9e9e;
 }
 
 .login-submit {
@@ -29,24 +29,13 @@
 }
 
 .btn-login {
-  padding: 10px 32px;
-  width: 100%;
-  border-radius: 4px;
-  color: #000000;
-  font-weight: 700;
-  font-size: 20px;
-  letter-spacing: -0.015em;
+  margin-bottom: 50px;
 }
 
 @media (min-width: 576px) {
   .login-card {
     padding: 50px;
     height: 570px;
-  }
-
-  .btn-login {
-    width: 384px;
-    height: 65px;
   }
 }
 
