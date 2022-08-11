@@ -4,14 +4,14 @@
 }
 
 .btn-container button {
-  width: 265px;
+  width: 280px;
   border-radius: 4px;
   height: 50px;
 }
 
 .btn h6 {
   color: #000000;
-  font-size: 20px;
+  font-size: 18px;
   letter-spacing: -0.015em;
   text-transform: uppercase;
   align-items: center;
@@ -21,5 +21,11 @@
   .btn-container button {
     width: 384px;
     height: 65px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .btn h6 {
+    font-size: 20px;
   }
 }

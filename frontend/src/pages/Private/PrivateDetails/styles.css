@@ -1,0 +1,19 @@
+.Private-details-container {
+  padding: 17px 10px;
+}
+
+.private-content h1 {
+  letter-spacing: -0.015em;
+  font-size: 24px;
+  color: #fff;
+}
+
+@media (min-width: 1200px) {
+  .Private-details-container {
+    padding: 40px;
+  }
+
+  .private-content h1 {
+    font-size: 48px;
+  }
+}
