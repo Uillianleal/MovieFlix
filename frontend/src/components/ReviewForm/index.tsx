@@ -1,7 +1,7 @@
 import ButtonIcon from '../ButtonIcon';
 import './styles.css';
 
-const ReviewFrom = () => {
+const ReviewForm = () => {
   return (
     <div className="review-container base-card">
       <div className='input-container'>
@@ -19,4 +19,4 @@ const ReviewFrom = () => {
   );
 };
 
-export default ReviewFrom;
+export default ReviewForm;
