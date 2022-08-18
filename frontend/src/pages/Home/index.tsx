@@ -10,8 +10,8 @@ const Home = () => {
         <p>Diga o que você achou do seu filme favorito</p>
         <AuthImage />
       </div>
-      <div className='auth-form-container'>
-        <Login/>
+      <div className="auth-form-container">
+        <Login />
       </div>
     </div>
   );

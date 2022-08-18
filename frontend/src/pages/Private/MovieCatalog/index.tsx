@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './styles.css';
 
 const MovieCatalog = () => {
@@ -7,12 +8,12 @@ const MovieCatalog = () => {
 
       <div className="movie-content-container">
         <ul>
-          <li>
-            <a href="link">Acessar/movies/1</a>
-          </li>
-          <li>
-            <a href="link">Acessar/movies/2</a>
-          </li>
+          <Link to="/movies/1">
+            <li>Acessar /movies/1</li>
+          </Link>
+          <Link to="/movies/2">
+            <li>Acessar /movies/2</li>
+          </Link>
         </ul>
       </div>
     </div>
