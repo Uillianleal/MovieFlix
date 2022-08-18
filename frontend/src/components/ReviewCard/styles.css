@@ -20,6 +20,10 @@
   margin: 10px 0px 10px 0px;
 }
 
+.img-star {
+  margin-left: 24px;
+}
+
 .content-container img {
   margin-top: 3px;
   width: 12px;
@@ -32,3 +36,4 @@
   letter-spacing: -0.015em;
   font-size: 16px;
 }
+
