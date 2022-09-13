@@ -1,47 +1,85 @@
 import { AxiosRequestConfig } from 'axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MovieCard from '../../../components/MovieCard';
+import MovieFilter, { movieFilterData } from '../../../components/MovieFilter';
+import Pagination from '../../../components/Pagination';
 import { Movie } from '../../../types/movie';
 import { SpringPage } from '../../../types/vendor/spring';
-import { isAuthenticated } from '../../../util/auth';
-import history from '../../../util/history';
 import { requestBackend } from '../../../util/requests';
 import './styles.css';
+
+type ControlComponentData = {
+  activePage: number;
+  filterData: movieFilterData;
+};
 
 const MovieCatalog = () => {
   const [page, setPage] = useState<SpringPage<Movie>>();
 
-  useEffect(() => {
+  const [controlComponentData, setControlComponentData] =
+    useState<ControlComponentData>({
+      activePage: 0,
+      filterData: { genre: null },
+    });
+
+  const handlePageChange = (pageNumber: number) => {
+    setControlComponentData({
+      activePage: pageNumber,
+      filterData: controlComponentData.filterData,
+    });
+  };
+
+  const handleSubmitFilter = (data: movieFilterData) => {
+    setControlComponentData({ activePage: 0, filterData: data });
+  };
+
+  const getMovie = useCallback(() => {
     const config: AxiosRequestConfig = {
       method: 'GET',
       url: '/movies',
+      params: {
+        page: controlComponentData.activePage,
+        size: 4,
+        genreId: controlComponentData.filterData.genre?.id,
+      },
       withCredentials: true,
     };
+    requestBackend(config).then((response) => {
+      setPage(response.data);
+    });
+  }, [controlComponentData]);
 
-    isAuthenticated()
-      ? requestBackend(config).then((response) => {
-          setPage(response.data);
-        })
-      : history.push('/');
-  }, []);
+  useEffect(() => {
+    getMovie();
+  }, [getMovie]);
 
   return (
-    <div className="movie-container container">
-      <div className="row">
-        {page?.content.map((movie) => {
-          return (
-            <div className="col-sm-6 col-xl-3" key={movie.id}>
-              <div className="movie-content-container">
-                <Link to={`/movies/${movie.id}`}>
-                  <MovieCard movie={movie} />
-                </Link>
+    <>
+      <MovieFilter onSubmitFilter={handleSubmitFilter} />
+      <div className="movie-container container">
+        <div className="row">
+          {page?.content.map((movie) => {
+            return (
+              <div className="col-sm-6 col-xl-3" key={movie.id}>
+                <div className="movie-content-container">
+                  <Link to={`/movies/${movie.id}`}>
+                    <MovieCard movie={movie} />
+                  </Link>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+        <div className="row">
+          <Pagination
+            pageCount={page ? page.totalPages : 0}
+            range={3}
+            onChange={handlePageChange}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
