@@ -7,6 +7,8 @@ import { Movie } from '../../../types/movie';
 import { Review } from '../../../types/review';
 import { hasAnyRoles } from '../../../util/auth';
 import { requestBackend } from '../../../util/requests';
+import MovieDetailsLoaderDesk from './MovieDetailsLoader';
+import MovieDetailsLoaderMobile from './MovieDetailsLoaderMob';
 import './styles.css';
 
 type urlParams = {
@@ -17,6 +19,8 @@ const MovieDetails = () => {
   const { movieId } = useParams<urlParams>();
   const [movie, setMovie] = useState<Movie>();
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
+  const [isLoadingReviews, setIsLoadingReviews] = useState(false);
 
   useEffect(() => {
     const config: AxiosRequestConfig = {
@@ -24,10 +28,14 @@ const MovieDetails = () => {
       url: `/movies/${movieId}`,
       withCredentials: true,
     };
-
-    requestBackend(config).then((response) => {
-      setMovie(response.data);
-    });
+    setIsLoadingDetails(true);
+    requestBackend(config)
+      .then((response) => {
+        setMovie(response.data);
+      })
+      .finally(() => {
+        setIsLoadingDetails(false);
+      });
   }, [movieId]);
 
   useEffect(() => {
@@ -36,9 +44,14 @@ const MovieDetails = () => {
       url: `/movies/${movieId}/reviews`,
       withCredentials: true,
     };
-    requestBackend(config).then((response) => {
-      setReviews(response.data);
-    });
+    setIsLoadingReviews(true);
+    requestBackend(config)
+      .then((response) => {
+        setReviews(response.data);
+      })
+      .finally(() => {
+        setIsLoadingReviews(false);
+      });
   }, [movieId]);
 
   const handleInsertReview = (review: Review) => {
@@ -49,27 +62,47 @@ const MovieDetails = () => {
 
   return (
     <div className="private-details-container container">
-      <div className="base-card private-details-card">
-        <div className="movie-details-img-container">
-          <img src={movie?.imgUrl} alt={movie?.title} />
-        </div>
-        <div className='movie-details-container-left'>
-        <div className="movie-details-content-container ">
-          <h5>{movie?.title}</h5>
-          <h6>{movie?.year}</h6>
-          <span>{movie?.subTitle}</span>
-        </div>
-        <div className="movie-details-content">
-          <p>{movie?.synopsis}</p>
-        </div>
-        </div>
-      </div>
-      {hasAnyRoles(['ROLE_MEMBER']) && (
-        <div>
-          <ReviewForm movieId={movieId} onInsertReview={handleInsertReview} />
+      {isLoadingDetails ? (
+        <>
+          <MovieDetailsLoaderMobile />
+          <MovieDetailsLoaderDesk />
+        </>
+      ) : (
+        <div className="base-card private-details-card">
+          <div className="movie-details-img-container">
+            <img src={movie?.imgUrl} alt={movie?.title} />
+          </div>
+          <div className="movie-details-container-left">
+            <div className="movie-details-content-container ">
+              <h5>{movie?.title}</h5>
+              <h6>{movie?.year}</h6>
+              <span>{movie?.subTitle}</span>
+            </div>
+            <div className="movie-details-content">
+              <p>{movie?.synopsis}</p>
+            </div>
+          </div>
         </div>
       )}
-      <ReviewListing reviews={reviews} />
+
+      {isLoadingDetails ? (
+        <MovieDetailsLoaderDesk />
+      ) : (
+        hasAnyRoles(['ROLE_MEMBER']) && (
+          <div>
+            <ReviewForm movieId={movieId} onInsertReview={handleInsertReview} />
+          </div>
+        )
+      )}
+
+      {isLoadingReviews ? (
+        <>
+          <MovieDetailsLoaderMobile />
+          <MovieDetailsLoaderDesk />
+        </>
+      ) : (
+        <ReviewListing reviews={reviews} />
+      )}
     </div>
   );
 };

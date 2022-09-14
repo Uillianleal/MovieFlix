@@ -7,6 +7,8 @@ import Pagination from '../../../components/Pagination';
 import { Movie } from '../../../types/movie';
 import { SpringPage } from '../../../types/vendor/spring';
 import { requestBackend } from '../../../util/requests';
+import MovieCardLoader from './MovieCardLoader';
+import MovieCardLoaderMob from './MovieCardLoaderMob';
 import './styles.css';
 
 type ControlComponentData = {
@@ -16,6 +18,7 @@ type ControlComponentData = {
 
 const MovieCatalog = () => {
   const [page, setPage] = useState<SpringPage<Movie>>();
+  const [isLoading, setisLoading] = useState(false);
 
   const [controlComponentData, setControlComponentData] =
     useState<ControlComponentData>({
@@ -45,9 +48,14 @@ const MovieCatalog = () => {
       },
       withCredentials: true,
     };
-    requestBackend(config).then((response) => {
-      setPage(response.data);
-    });
+    setisLoading(true);
+    requestBackend(config)
+      .then((response) => {
+        setPage(response.data);
+      })
+      .finally(() => {
+        setisLoading(false);
+      });
   }, [controlComponentData]);
 
   useEffect(() => {
@@ -59,17 +67,24 @@ const MovieCatalog = () => {
       <MovieFilter onSubmitFilter={handleSubmitFilter} />
       <div className="movie-container container">
         <div className="row">
-          {page?.content.map((movie) => {
-            return (
-              <div className="col-sm-6 col-xl-3" key={movie.id}>
-                <div className="movie-content-container">
-                  <Link to={`/movies/${movie.id}`}>
-                    <MovieCard movie={movie} />
-                  </Link>
+          {isLoading ? (
+            <>
+              <MovieCardLoaderMob />
+              <MovieCardLoader />
+            </>
+          ) : (
+            page?.content.map((movie) => {
+              return (
+                <div className="col-sm-6 col-xl-3" key={movie.id}>
+                  <div className="movie-content-container">
+                    <Link to={`/movies/${movie.id}`}>
+                      <MovieCard movie={movie} />
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
         <div className="row">
           <Pagination
