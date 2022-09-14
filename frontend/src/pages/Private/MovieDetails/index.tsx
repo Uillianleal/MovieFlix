@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ReviewForm from '../../../components/ReviewForm';
 import ReviewListing from '../../../components/ReviewListing';
+import { Movie } from '../../../types/movie';
 import { Review } from '../../../types/review';
 import { hasAnyRoles } from '../../../util/auth';
 import { requestBackend } from '../../../util/requests';
@@ -14,8 +15,20 @@ type urlParams = {
 
 const MovieDetails = () => {
   const { movieId } = useParams<urlParams>();
-
+  const [movie, setMovie] = useState<Movie>();
   const [reviews, setReviews] = useState<Review[]>([]);
+
+  useEffect(() => {
+    const config: AxiosRequestConfig = {
+      method: 'GET',
+      url: `/movies/${movieId}`,
+      withCredentials: true,
+    };
+
+    requestBackend(config).then((response) => {
+      setMovie(response.data);
+    });
+  }, [movieId]);
 
   useEffect(() => {
     const config: AxiosRequestConfig = {
@@ -35,9 +48,21 @@ const MovieDetails = () => {
   };
 
   return (
-    <div className="Private-details-container">
-      <div className="private-content">
-        <h1>Tela detalhaes do filmes id: {movieId}</h1>
+    <div className="private-details-container container">
+      <div className="base-card private-details-card">
+        <div className="movie-details-img-container">
+          <img src={movie?.imgUrl} alt={movie?.title} />
+        </div>
+        <div className='movie-details-container-left'>
+        <div className="movie-details-content-container ">
+          <h5>{movie?.title}</h5>
+          <h6>{movie?.year}</h6>
+          <span>{movie?.subTitle}</span>
+        </div>
+        <div className="movie-details-content">
+          <p>{movie?.synopsis}</p>
+        </div>
+        </div>
       </div>
       {hasAnyRoles(['ROLE_MEMBER']) && (
         <div>

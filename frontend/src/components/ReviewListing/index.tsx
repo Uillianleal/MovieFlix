@@ -8,10 +8,12 @@ type Props = {
 
 const ReviewListing = ({ reviews }: Props) => {
   return (
-    <div className="base-card review-listing-container">
+    <div className='review-listing-container'>
+    <div className="base-card review-card-content-container">
       {reviews.map((obj) => (
         <ReviewCard review={obj} key={obj.id} />
       ))}
+    </div>
     </div>
   );
 };

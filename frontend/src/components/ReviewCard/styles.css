@@ -21,13 +21,13 @@
 }
 
 .img-star {
-  margin-left: 24px;
+  margin-left: 8px;
 }
 
 .content-container img {
   margin-top: 3px;
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 15px;
 }
 
 .content-container h6 {
@@ -36,4 +36,16 @@
   letter-spacing: -0.015em;
   font-size: 16px;
 }
+
+@media (min-width: 576px) {
+  .img-star {
+    margin-left: 0px;
+  }
+}
+
+
+
+
+
+
 
