@@ -1,6 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import MovieFilterLoaderPc from '../../../components/MovieFilter/MovieFilterLoader/MovieFilterLoaderPC';
 import ReviewForm from '../../../components/ReviewForm';
 import ReviewListing from '../../../components/ReviewListing';
 import { Movie } from '../../../types/movie';
@@ -86,7 +87,7 @@ const MovieDetails = () => {
       )}
 
       {isLoadingDetails ? (
-        <MovieDetailsLoaderDesk />
+        <MovieFilterLoaderPc />
       ) : (
         hasAnyRoles(['ROLE_MEMBER']) && (
           <div>
