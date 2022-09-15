@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Review } from '../../types/review';
 import { requestBackend } from '../../util/requests';
 import ButtonIcon from '../ButtonIcon';
+import { toast } from 'react-toastify';
 import './styles.css';
 
 type Props = {
@@ -25,7 +26,11 @@ const ReviewForm = ({ movieId, onInsertReview }: Props) => {
 
   const onSubmit = (formData: FormData) => {
     formData.movieId = parseInt(movieId);
-    console.log(formData);
+
+   if (formData.text.trim().length === 0) {
+      toast.dark('Campo texto não pode estar vazio!');
+      return;
+    }
 
     const config: AxiosRequestConfig = {
       method: 'POST',
@@ -33,14 +38,15 @@ const ReviewForm = ({ movieId, onInsertReview }: Props) => {
       data: formData,
       withCredentials: true,
     };
+
     requestBackend(config)
       .then((response) => {
         setValue('text', '');
         onInsertReview(response.data);
-        console.log('SUCESSO AO SALVAR', response);
+        toast.success('Avaliação cadastrada com sucesso!');
       })
       .catch((error) => {
-        console.log('ERRO AO SALVAR', error);
+        toast.error('Erro ao cadastrar a avaliação');
       });
   };
 
