@@ -35,7 +35,7 @@ const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-md bg-warning main-nav">
       <div className="container-fluid nav-container">
-        <Link to="/">
+        <Link to="/movies">
           <h1>MovieFlix</h1>
         </Link>
         <div className="logout-container">
