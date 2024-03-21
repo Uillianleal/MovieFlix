@@ -7,6 +7,7 @@
 MovieFlix é uma aplicação full stack web de streaming de filmes, desenvolvida como atividade avaliativa nos Bootcamps Spring e React edição 3.0 pela DevSuperior [DevSuperior](https://devsuperior.com.br/ "Site da DevSuperior"). A plataforma categoriza usuários como visitantes ou membros, permitindo-lhes acessar e avaliar um vasto catálogo de filmes.
 
 Membros têm a vantagem exclusiva de avaliar filmes, agregando valor ao serviço com seus feedbacks e recomendações. Projetada para facilitar a navegação, a interface do MovieFlix inclui listagem paginada, filtros por gênero e detalhamento completo dos filmes, garantindo uma experiência intuitiva e informativa para os usuários.
+## CLIQUE AQUI PARA VER  [MovieFlix](https://movieflixaplication.netlify.app/ "Site da DevSuperior")
 
 ## Layout mobile
 ![Mobile 2](https://github.com/Uillianleal/Movieflix/blob/main/assets/movieFlix1.png?raw=true) 
@@ -31,6 +32,11 @@ Membros têm a vantagem exclusiva de avaliar filmes, agregando valor ao serviço
 ## Front end
 - HTML / CSS / JS / TypeScript
 - ReactJS
+
+- ## Implantação em produção
+- Back end: Railway
+- Front end web: Netlify
+- Banco de dados: Postgresql
 
 # Como executar o projeto
 
